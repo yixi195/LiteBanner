@@ -11,7 +11,7 @@ import com.ysl.litebanner.holder.ListBaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 /**
- *
+ * 画廊BannerView 关键
  */
 public class LBannerView<T> extends RecyclerView implements Runnable {
     private static final String TAG = "RecyclerCoverFlow";
