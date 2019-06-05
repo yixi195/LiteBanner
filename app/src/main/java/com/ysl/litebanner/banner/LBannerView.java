@@ -3,6 +3,7 @@ package com.ysl.litebanner.banner;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import androidx.annotation.Nullable;
@@ -10,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ysl.litebanner.holder.ListBaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * 画廊BannerView 关键
  */
 public class LBannerView<T> extends RecyclerView implements Runnable {
-    private static final String TAG = "RecyclerCoverFlow";
+    private static final String TAG = "LBannerView";
     private Handler mHandler = new Handler();
     private int mDelayedTime = 3000;// Banner 切换时间间隔
     private List<T> mDatas = new ArrayList<>();
@@ -240,7 +242,7 @@ public class LBannerView<T> extends RecyclerView implements Runnable {
      * @param list
      * @param adapter
      */
-    public void setPageDatas(List<T> list,ListBaseAdapter adapter) {
+    public LBannerView setPageDatas(List<T> list,ListBaseAdapter adapter) {
         this.mDatas = list;
         this.adapter = adapter;
 
@@ -260,6 +262,7 @@ public class LBannerView<T> extends RecyclerView implements Runnable {
             }
         });
         this.adapter.setDataList(list);
+        return this;
     }
 
     /**
@@ -273,13 +276,10 @@ public class LBannerView<T> extends RecyclerView implements Runnable {
     /**
      * 开始轮播
      */
-    public void start() {
-        // 如果Adapter为null, 说明还没有设置数据，这个时候不应该轮播Banner
-        if (getCoverFlowLayout() == null) {
-            return;
-        }
-        if (mDatas.size() < 2) { //少于2张不允许滚动
-            return;
+    public LBannerView start() {
+        // 如果Adapter为null, 说明还没有设置数据，这个时候不应该轮播Banner   //少于2张不允许滚动
+        if (getCoverFlowLayout() == null || mDatas.size() < 2) {
+            return this;
         }
         // getCoverFlowLayout().scrollToPosition();
         if (mIsCanLoop) {
@@ -287,16 +287,18 @@ public class LBannerView<T> extends RecyclerView implements Runnable {
             mIsAutoPlay = true;
             mHandler.postDelayed(this, mDelayedTime);
         }
+        return this;
     }
 
     /**
      * 停止轮播
      */
-    public void pause() {
+    public LBannerView pause() {
         mIsAutoPlay = false;
         if (mHandler != null) {
             mHandler.removeCallbacks(this);
         }
+        return this;
     }
 
     /**
@@ -311,8 +313,9 @@ public class LBannerView<T> extends RecyclerView implements Runnable {
      *
      * @param onItemClickListener
      */
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public LBannerView setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+        return this;
     }
 
 
@@ -321,8 +324,8 @@ public class LBannerView<T> extends RecyclerView implements Runnable {
         if (mIsAutoPlay) {
             //mCurrentItem = mViewPager.getCurrentItem();
             mCurrentItem++;
-            //Logger.i(TAG,"mCurrentItem++===" + mCurrentItem);
-            if (mCurrentItem == mDatas.size() - 1) {
+            Log.i(TAG,"mCurrentItem++===" + mCurrentItem);
+            if (mCurrentItem == mDatas.size()) {
                 mCurrentItem = 0;
                 //滑动不带过渡效果
                 scrollToPosition(mCurrentItem);

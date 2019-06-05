@@ -37,15 +37,14 @@ public class MainActivity extends AppCompatActivity {
         bannerList.add(new Banner("http://pic44.nipic.com/20140716/8716187_010828140000_2.jpg"));
         bannerList.add(new Banner("http://pic1.win4000.com/wallpaper/6/57a2ea76bcc06.jpg"));
         testBannerAdapter = new TestBannerAdapter(this);
-        lBannerView.setPageDatas(bannerList,testBannerAdapter);
-        lBannerView.start();
-        //点击
-        lBannerView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(MainActivity.this,"点击：" + position,Toast.LENGTH_LONG).show();
-            }
-        });
+        lBannerView.setPageDatas(bannerList, testBannerAdapter)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(MainActivity.this, "点击：" + position, Toast.LENGTH_LONG).show();
+                    }
+                })
+                .start();
 
     }
 }
