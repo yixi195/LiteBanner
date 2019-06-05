@@ -1,4 +1,4 @@
-# LiteBanner 一款类似画廊的Banner
+# LiteBanner 一款超级好看类似画廊的Banner
 
 效果图如下
 
